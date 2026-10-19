@@ -3,15 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FinAudit India | Financial Health Diagnostic</title>
+  <title>FinAudit India | Financial Health Diagnostic & Wealth Projector</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     body { font-family: 'Inter', sans-serif; background-color: #0b0f19; color: #f1f5f9; }
     .glass-card { background: #131b2e; border: 1px solid #1e293b; }
     input[type=range] { accent-color: #38bdf8; }
+    /* Hide number input arrows for clean styling */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+    input[type=number] { -moz-appearance: textfield; }
   </style>
 </head>
 <body class="min-h-screen flex flex-col">
@@ -23,7 +28,7 @@
         <div class="w-8 h-8 rounded-lg bg-cyan-500 flex items-center justify-center font-black text-slate-950 text-sm">₹</div>
         <span class="font-extrabold text-base tracking-tight text-white">FinAudit<span class="text-cyan-400">.in</span></span>
       </div>
-      <span class="text-xs bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 px-2.5 py-1 rounded-full font-semibold">Live Tool</span>
+      <span class="text-xs bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 px-2.5 py-1 rounded-full font-semibold">Live Diagnostic</span>
     </div>
   </header>
 
@@ -32,7 +37,7 @@
     <!-- Title -->
     <div class="text-center space-y-1">
       <h1 class="text-2xl sm:text-3xl font-extrabold text-white">Financial Health & Wealth Diagnostic</h1>
-      <p class="text-xs sm:text-sm text-slate-400">Adjust the sliders or type numbers directly to see your live score & runway.</p>
+      <p class="text-xs sm:text-sm text-slate-400">Adjust the sliders or type exact numbers directly to evaluate your score and wealth trajectory.</p>
     </div>
 
     <!-- Diagnostic Score Box -->
@@ -62,7 +67,7 @@
         <div class="bg-slate-900/90 p-3 rounded-xl border border-slate-800">
           <span class="text-[10px] text-slate-400 block font-medium">Debt Burden (DTI)</span>
           <span id="dti-stat" class="text-sm font-bold text-slate-200 block mt-0.5">6.7%</span>
-          <span id="dti-eval" class="text-[9px] text-emerald-400 font-semibold block mt-0.5">Low (<20%)</span>
+          <span id="dti-eval" class="text-[9px] text-emerald-400 font-semibold block mt-0.5">Low (&lt;15%)</span>
         </div>
         <div class="bg-slate-900/90 p-3 rounded-xl border border-slate-800">
           <span class="text-[10px] text-slate-400 block font-medium">Insurance Shield</span>
@@ -70,17 +75,27 @@
           <span id="shield-eval" class="text-[9px] text-slate-400 font-semibold block mt-0.5">Covered</span>
         </div>
       </div>
+
+      <!-- One-Tap WhatsApp Share Button -->
+      <div class="pt-2">
+        <button id="btn-share-whatsapp" class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs px-4 py-2 rounded-xl transition shadow-md shadow-emerald-900/30">
+          <i class="fa-brands fa-whatsapp text-sm"></i> Share My Score on WhatsApp
+        </button>
+      </div>
     </div>
 
-    <!-- Inputs Section -->
+    <!-- Inputs Section (with Direct Typing Box + Sliders) -->
     <div class="glass-card rounded-2xl p-5 sm:p-6 space-y-5">
       <h2 class="text-base font-bold text-white border-b border-slate-800 pb-2">Enter Your Monthly Financials</h2>
 
       <!-- 1. Monthly In-Hand Income -->
       <div class="space-y-1.5">
         <div class="flex justify-between items-center text-xs">
-          <label class="font-medium text-slate-300">Monthly In-Hand Income</label>
-          <span class="font-bold text-cyan-400" id="income-txt">₹75,000</span>
+          <label for="income-num" class="font-medium text-slate-300">Monthly In-Hand Income</label>
+          <div class="flex items-center bg-slate-900 border border-slate-700 rounded-lg px-2 py-0.5">
+            <span class="text-slate-400 mr-1">₹</span>
+            <input type="number" id="income-num" value="75000" min="15000" max="1000000" step="1000" class="w-24 bg-transparent text-right font-bold text-cyan-400 focus:outline-none">
+          </div>
         </div>
         <input type="range" id="income-slider" min="15000" max="500000" step="5000" value="75000" class="w-full h-2 bg-slate-800 rounded-lg cursor-pointer">
       </div>
@@ -88,8 +103,11 @@
       <!-- 2. Essential Monthly Expenses -->
       <div class="space-y-1.5">
         <div class="flex justify-between items-center text-xs">
-          <label class="font-medium text-slate-300">Monthly Needs (Rent, Food, Bills)</label>
-          <span class="font-bold text-slate-200" id="expense-txt">₹35,000</span>
+          <label for="expense-num" class="font-medium text-slate-300">Monthly Needs (Rent, Food, Bills)</label>
+          <div class="flex items-center bg-slate-900 border border-slate-700 rounded-lg px-2 py-0.5">
+            <span class="text-slate-400 mr-1">₹</span>
+            <input type="number" id="expense-num" value="35000" min="5000" max="500000" step="1000" class="w-24 bg-transparent text-right font-bold text-slate-200 focus:outline-none">
+          </div>
         </div>
         <input type="range" id="expense-slider" min="5000" max="300000" step="2500" value="35000" class="w-full h-2 bg-slate-800 rounded-lg cursor-pointer">
       </div>
@@ -97,8 +115,11 @@
       <!-- 3. Existing Liquid Emergency Fund -->
       <div class="space-y-1.5">
         <div class="flex justify-between items-center text-xs">
-          <label class="font-medium text-slate-300">Liquid Savings (Savings Bank + FDs)</label>
-          <span class="font-bold text-emerald-400" id="savings-txt">₹1,50,000</span>
+          <label for="savings-num" class="font-medium text-slate-300">Liquid Savings (Savings Bank + FDs)</label>
+          <div class="flex items-center bg-slate-900 border border-slate-700 rounded-lg px-2 py-0.5">
+            <span class="text-slate-400 mr-1">₹</span>
+            <input type="number" id="savings-num" value="150000" min="0" max="5000000" step="5000" class="w-24 bg-transparent text-right font-bold text-emerald-400 focus:outline-none">
+          </div>
         </div>
         <input type="range" id="savings-slider" min="0" max="2000000" step="10000" value="150000" class="w-full h-2 bg-slate-800 rounded-lg cursor-pointer">
       </div>
@@ -106,8 +127,11 @@
       <!-- 4. Monthly Investment / SIP -->
       <div class="space-y-1.5">
         <div class="flex justify-between items-center text-xs">
-          <label class="font-medium text-slate-300">Monthly Investments (Mutual Funds / SIP)</label>
-          <span class="font-bold text-cyan-400" id="invest-txt">₹15,000</span>
+          <label for="invest-num" class="font-medium text-slate-300">Monthly Investments (Mutual Funds / SIP)</label>
+          <div class="flex items-center bg-slate-900 border border-slate-700 rounded-lg px-2 py-0.5">
+            <span class="text-slate-400 mr-1">₹</span>
+            <input type="number" id="invest-num" value="15000" min="0" max="500000" step="1000" class="w-24 bg-transparent text-right font-bold text-cyan-400 focus:outline-none">
+          </div>
         </div>
         <input type="range" id="invest-slider" min="0" max="200000" step="2500" value="15000" class="w-full h-2 bg-slate-800 rounded-lg cursor-pointer">
       </div>
@@ -115,8 +139,11 @@
       <!-- 5. Monthly Debt / EMIs -->
       <div class="space-y-1.5">
         <div class="flex justify-between items-center text-xs">
-          <label class="font-medium text-slate-300">Monthly EMIs / High-Interest Debt</label>
-          <span class="font-bold text-rose-400" id="debt-txt">₹5,000</span>
+          <label for="debt-num" class="font-medium text-slate-300">Monthly EMIs / High-Interest Debt</label>
+          <div class="flex items-center bg-slate-900 border border-slate-700 rounded-lg px-2 py-0.5">
+            <span class="text-slate-400 mr-1">₹</span>
+            <input type="number" id="debt-num" value="5000" min="0" max="300000" step="1000" class="w-24 bg-transparent text-right font-bold text-rose-400 focus:outline-none">
+          </div>
         </div>
         <input type="range" id="debt-slider" min="0" max="150000" step="2000" value="5000" class="w-full h-2 bg-slate-800 rounded-lg cursor-pointer">
       </div>
@@ -137,6 +164,44 @@
       </div>
     </div>
 
+    <!-- SIP Wealth Projector Card -->
+    <div class="glass-card rounded-2xl p-5 sm:p-6 border border-slate-800 space-y-4">
+      <div class="flex items-center justify-between">
+        <div>
+          <h3 class="text-base font-bold text-white flex items-center gap-2">
+            <i class="fa-solid fa-arrow-trend-up text-emerald-400"></i> SIP Wealth Multiplier
+          </h3>
+          <p class="text-xs text-slate-400">Projected growth of your <span id="sip-current-monthly" class="font-bold text-cyan-400">₹15,000</span>/month investment at 12% CAGR.</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <!-- 10 Years -->
+        <div class="bg-slate-900/90 p-4 rounded-xl border border-slate-800 space-y-1">
+          <span class="text-xs text-slate-400 font-semibold block">In 10 Years</span>
+          <div id="sip-10yr-total" class="text-lg font-extrabold text-white">₹34.86 L</div>
+          <div class="text-[11px] text-slate-400">Invested: <span id="sip-10yr-inv">₹18.00 L</span></div>
+          <div class="text-[11px] text-emerald-400 font-medium">Gain: <span id="sip-10yr-gain">+₹16.86 L</span></div>
+        </div>
+
+        <!-- 15 Years -->
+        <div class="bg-slate-900/90 p-4 rounded-xl border border-slate-800 space-y-1">
+          <span class="text-xs text-slate-400 font-semibold block">In 15 Years</span>
+          <div id="sip-15yr-total" class="text-lg font-extrabold text-cyan-400">₹74.39 L</div>
+          <div class="text-[11px] text-slate-400">Invested: <span id="sip-15yr-inv">₹27.00 L</span></div>
+          <div class="text-[11px] text-emerald-400 font-medium">Gain: <span id="sip-15yr-gain">+₹47.39 L</span></div>
+        </div>
+
+        <!-- 20 Years -->
+        <div class="bg-slate-900/90 p-4 rounded-xl border border-emerald-500/30 space-y-1 shadow-lg shadow-emerald-500/5">
+          <span class="text-xs text-emerald-400 font-bold block">In 20 Years (Crorepati)</span>
+          <div id="sip-20yr-total" class="text-lg font-extrabold text-emerald-400">₹1.49 Cr</div>
+          <div class="text-[11px] text-slate-400">Invested: <span id="sip-20yr-inv">₹36.00 L</span></div>
+          <div class="text-[11px] text-emerald-400 font-medium">Gain: <span id="sip-20yr-gain">+₹1.13 Cr</span></div>
+        </div>
+      </div>
+    </div>
+
     <!-- Recommendations Box -->
     <div class="glass-card rounded-2xl p-5 border border-slate-800">
       <h3 class="text-sm font-bold text-white mb-2">Personalized Action Steps</h3>
@@ -151,27 +216,42 @@
     FinAudit India • Educational diagnostic tool • Not SEBI financial advice
   </footer>
 
-  <!-- Bulletproof JavaScript -->
+  <!-- Script -->
   <script>
     document.addEventListener("DOMContentLoaded", function () {
       function formatINR(val) {
         return "₹" + Number(val).toLocaleString("en-IN");
       }
 
+      function formatLakhOrCr(val) {
+        if (val >= 10000000) {
+          return "₹" + (val / 10000000).toFixed(2) + " Cr";
+        } else if (val >= 100000) {
+          return "₹" + (val / 100000).toFixed(2) + " L";
+        } else {
+          return formatINR(Math.round(val));
+        }
+      }
+
+      // Range Sliders
       var incS = document.getElementById("income-slider");
       var expS = document.getElementById("expense-slider");
       var savS = document.getElementById("savings-slider");
       var invS = document.getElementById("invest-slider");
       var dbtS = document.getElementById("debt-slider");
+
+      // Number Inputs
+      var incN = document.getElementById("income-num");
+      var expN = document.getElementById("expense-num");
+      var savN = document.getElementById("savings-num");
+      var invN = document.getElementById("invest-num");
+      var dbtN = document.getElementById("debt-num");
+
+      // Checkboxes
       var chkTerm = document.getElementById("check-term");
       var chkHealth = document.getElementById("check-health");
 
-      var incT = document.getElementById("income-txt");
-      var expT = document.getElementById("expense-txt");
-      var savT = document.getElementById("savings-txt");
-      var invT = document.getElementById("invest-txt");
-      var dbtT = document.getElementById("debt-txt");
-
+      // Scorecard Outputs
       var scoreNum = document.getElementById("score-number");
       var scoreBadge = document.getElementById("score-badge");
       var runwayStat = document.getElementById("runway-stat");
@@ -183,20 +263,51 @@
       var shieldStat = document.getElementById("shield-stat");
       var shieldEval = document.getElementById("shield-eval");
       var recList = document.getElementById("recommendation-list");
+      var shareBtn = document.getElementById("btn-share-whatsapp");
 
-      function updateAll() {
-        var income = parseFloat(incS.value) || 0;
-        var expense = parseFloat(expS.value) || 0;
-        var savings = parseFloat(savS.value) || 0;
-        var invest = parseFloat(invS.value) || 0;
-        var debt = parseFloat(dbtS.value) || 0;
+      // SIP Projection Outputs
+      var sipCurrMonthly = document.getElementById("sip-current-monthly");
+      var sip10Total = document.getElementById("sip-10yr-total");
+      var sip10Inv = document.getElementById("sip-10yr-inv");
+      var sip10Gain = document.getElementById("sip-10yr-gain");
 
-        // Update labels
-        incT.innerText = formatINR(income);
-        expT.innerText = formatINR(expense);
-        savT.innerText = formatINR(savings);
-        invT.innerText = formatINR(invest);
-        dbtT.innerText = formatINR(debt);
+      var sip15Total = document.getElementById("sip-15yr-total");
+      var sip15Inv = document.getElementById("sip-15yr-inv");
+      var sip15Gain = document.getElementById("sip-15yr-gain");
+
+      var sip20Total = document.getElementById("sip-20yr-total");
+      var sip20Inv = document.getElementById("sip-20yr-inv");
+      var sip20Gain = document.getElementById("sip-20yr-gain");
+
+      // Calculate SIP FV: P * [ ( (1 + r)^n - 1 ) / r ] * (1 + r)
+      function calcSIPFutureValue(p, annualRate, years) {
+        var r = (annualRate / 100) / 12;
+        var n = years * 12;
+        if (r === 0 || p === 0) return p * n;
+        return p * ((Math.pow(1 + r, n) - 1) / r) * (1 + r);
+      }
+
+      function updateAll(source) {
+        // Sync inputs
+        if (source === 'slider') {
+          incN.value = incS.value;
+          expN.value = expS.value;
+          savN.value = savS.value;
+          invN.value = invS.value;
+          dbtN.value = dbtS.value;
+        } else if (source === 'num') {
+          incS.value = incN.value;
+          expS.value = expN.value;
+          savS.value = savN.value;
+          invS.value = invN.value;
+          dbtS.value = dbtN.value;
+        }
+
+        var income = parseFloat(incN.value) || 0;
+        var expense = parseFloat(expN.value) || 0;
+        var savings = parseFloat(savN.value) || 0;
+        var invest = parseFloat(invN.value) || 0;
+        var debt = parseFloat(dbtN.value) || 0;
 
         // 1. Runway
         var monthlyBurn = expense + debt;
@@ -283,7 +394,7 @@
         // Action Steps
         var items = [];
         if (runway < 6) {
-          items.push("<li>• <strong>Emergency Fund:</strong> Build at least 6 months of living expenses (" + formatINR(monthlyBurn * 6) + ") in a liquid fund or sweep-in FD.</li>");
+          items.push("<li>• <strong>Emergency Fund:</strong> Build at least 6 months of living expenses (" + formatINR(monthlyBurn * 6) + ") in an arbitrage fund or sweep-in FD.</li>");
         }
         if (!chkHealth.checked) {
           items.push("<li>• <strong>Health Insurance:</strong> Get a separate health insurance policy (minimum ₹10L) to safeguard savings.</li>");
@@ -301,18 +412,64 @@
           items.push("<li class='text-emerald-400 font-medium'>• Excellent financial profile! Keep investing regularly and stepping up your SIP annually.</li>");
         }
         recList.innerHTML = items.join("");
+
+        // 5. Calculate SIP Projections
+        sipCurrMonthly.innerText = formatINR(invest);
+
+        // 10 Yrs
+        var inv10 = invest * 12 * 10;
+        var fv10 = calcSIPFutureValue(invest, 12, 10);
+        sip10Total.innerText = formatLakhOrCr(fv10);
+        sip10Inv.innerText = formatLakhOrCr(inv10);
+        sip10Gain.innerText = "+" + formatLakhOrCr(fv10 - inv10);
+
+        // 15 Yrs
+        var inv15 = invest * 12 * 15;
+        var fv15 = calcSIPFutureValue(invest, 12, 15);
+        sip15Total.innerText = formatLakhOrCr(fv15);
+        sip15Inv.innerText = formatLakhOrCr(inv15);
+        sip15Gain.innerText = "+" + formatLakhOrCr(fv15 - inv15);
+
+        // 20 Yrs
+        var inv20 = invest * 12 * 20;
+        var fv20 = calcSIPFutureValue(invest, 12, 20);
+        sip20Total.innerText = formatLakhOrCr(fv20);
+        sip20Inv.innerText = formatLakhOrCr(inv20);
+        sip20Gain.innerText = "+" + formatLakhOrCr(fv20 - inv20);
       }
 
-      // Add listeners for both input and change (covers touch devices)
-      var inputs = [incS, expS, savS, invS, dbtS];
-      for (var i = 0; i < inputs.length; i++) {
-        inputs[i].addEventListener("input", updateAll);
-        inputs[i].addEventListener("change", updateAll);
-      }
-      chkTerm.addEventListener("change", updateAll);
-      chkHealth.addEventListener("change", updateAll);
+      // Attach Listeners for Sliders
+      [incS, expS, savS, invS, dbtS].forEach(function(slider) {
+        slider.addEventListener("input", function() { updateAll('slider'); });
+        slider.addEventListener("change", function() { updateAll('slider'); });
+      });
 
-      updateAll();
+      // Attach Listeners for Number Inputs
+      [incN, expN, savN, invN, dbtN].forEach(function(numInput) {
+        numInput.addEventListener("input", function() { updateAll('num'); });
+        numInput.addEventListener("change", function() { updateAll('num'); });
+      });
+
+      chkTerm.addEventListener("change", function() { updateAll('none'); });
+      chkHealth.addEventListener("change", function() { updateAll('none'); });
+
+      // WhatsApp Share Handler
+      shareBtn.addEventListener("click", function() {
+        var score = scoreNum.innerText;
+        var runway = runwayStat.innerText;
+        var rate = savingsRateStat.innerText;
+        var text = encodeURIComponent(
+          "📊 I just audited my Financial Health Score on FinAudit.in!\n\n" +
+          "🎯 My Score: " + score + "/100\n" +
+          "🛡️ Emergency Runway: " + runway + "\n" +
+          "📈 Monthly SIP Rate: " + rate + "\n\n" +
+          "Test your financial health & wealth projection here: " + window.location.href
+        );
+        window.open("https://api.whatsapp.com/send?text=" + text, "_blank");
+      });
+
+      // Initial calculation
+      updateAll('slider');
     });
   </script>
 </body>
