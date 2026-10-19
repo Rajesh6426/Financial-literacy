@@ -76,11 +76,11 @@
         </div>
       </div>
 
-      <!-- One-Tap WhatsApp Share Button -->
+      <!-- One-Tap WhatsApp Native Anchor -->
       <div class="pt-2">
-        <button id="btn-share-whatsapp" class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs px-4 py-2 rounded-xl transition shadow-md shadow-emerald-900/30">
+        <a id="btn-share-whatsapp" href="#" class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs px-4 py-2.5 rounded-xl transition shadow-md shadow-emerald-900/30 cursor-pointer">
           <i class="fa-brands fa-whatsapp text-sm"></i> Share My Score on WhatsApp
-        </button>
+        </a>
       </div>
     </div>
 
@@ -438,13 +438,13 @@
         sip20Gain.innerText = "+" + formatLakhOrCr(fv20 - inv20);
       }
 
-      // Attach Listeners for Sliders
+      // Sliders Listeners
       [incS, expS, savS, invS, dbtS].forEach(function(slider) {
         slider.addEventListener("input", function() { updateAll('slider'); });
         slider.addEventListener("change", function() { updateAll('slider'); });
       });
 
-      // Attach Listeners for Number Inputs
+      // Number Input Listeners
       [incN, expN, savN, invN, dbtN].forEach(function(numInput) {
         numInput.addEventListener("input", function() { updateAll('num'); });
         numInput.addEventListener("change", function() { updateAll('num'); });
@@ -453,19 +453,29 @@
       chkTerm.addEventListener("change", function() { updateAll('none'); });
       chkHealth.addEventListener("change", function() { updateAll('none'); });
 
-      // WhatsApp Share Handler
-      shareBtn.addEventListener("click", function() {
+      // Native Mobile WhatsApp Trigger (No Popup Blocker)
+      shareBtn.addEventListener("click", function(e) {
+        e.preventDefault();
         var score = scoreNum.innerText;
         var runway = runwayStat.innerText;
-        var rate = savingsRateStat.innerText;
-        var text = encodeURIComponent(
-          "📊 I just audited my Financial Health Score on FinAudit.in!\n\n" +
-          "🎯 My Score: " + score + "/100\n" +
-          "🛡️ Emergency Runway: " + runway + "\n" +
-          "📈 Monthly SIP Rate: " + rate + "\n\n" +
-          "Test your financial health & wealth projection here: " + window.location.href
-        );
-        window.open("https://api.whatsapp.com/send?text=" + text, "_blank");
+        var rate = savRateStat.innerText;
+        var currentUrl = window.location.href;
+
+        var message = "📊 I just audited my Financial Health Score on FinAudit.in!\n\n" +
+                      "🎯 My Score: " + score + "/100\n" +
+                      "🛡️ Emergency Runway: " + runway + "\n" +
+                      "📈 Monthly SIP Rate: " + rate + "\n\n" +
+                      "Test your score here: " + currentUrl;
+
+        var encoded = encodeURIComponent(message);
+        
+        // Direct mobile protocol
+        window.location.href = "whatsapp://send?text=" + encoded;
+
+        // Fallback for browsers or desktop
+        setTimeout(function() {
+          window.location.href = "https://api.whatsapp.com/send?text=" + encoded;
+        }, 500);
       });
 
       // Initial calculation
