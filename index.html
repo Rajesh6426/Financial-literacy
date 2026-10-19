@@ -1,346 +1,511 @@
-```html
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FinAware India — Master Your Money & Financial Literacy</title>
-  <meta name="description" content="Free, open, unbiased personal finance guide and interactive wealth calculators tailored for India. Learn SIP, 50/30/20 budgeting, compounding, and risk management.">
-  
+  <title>FinAudit India | Financial Health & Wealth Diagnostic</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Google Fonts: Inter -->
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Inter Font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <!-- FontAwesome Icons for clean accents -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
   <script>
     tailwind.config = {
       theme: {
         extend: {
-          fontFamily: {
-            sans: ['Inter', 'sans-serif'],
-          },
+          fontFamily: { sans: ['Inter', 'sans-serif'] },
           colors: {
             brand: {
-              50: '#f0f7ff',
-              100: '#e0effe',
-              500: '#0284c7',
-              600: '#0369a1',
-              700: '#075985',
-              900: '#0c4a6e',
+              50: '#f0fdf4',
+              400: '#4ade80',
+              500: '#22c55e',
+              600: '#16a34a',
+              accent: '#38bdf8',
+              warning: '#f59e0b',
+              danger: '#ef4444',
+              dark: '#0a0f1d',
+              card: '#131b2e',
+              border: '#1e293b'
             }
           }
         }
       }
     }
   </script>
-
   <style>
-    /* Custom clean styling */
-    body {
-      font-family: 'Inter', sans-serif;
-      -webkit-tap-highlight-color: transparent;
+    body { background-color: #080c16; color: #f8fafc; }
+    .glass-card {
+      background: rgba(19, 27, 46, 0.7);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .glow-accent {
+      box-shadow: 0 0 35px -10px rgba(56, 189, 248, 0.25);
     }
     input[type=range] {
-      accent-color: #0284c7;
-    }
-    .custom-scrollbar::-webkit-scrollbar {
-      width: 6px;
-    }
-    .custom-scrollbar::-webkit-scrollbar-thumb {
-      background: #cbd5e1;
-      border-radius: 9999px;
+      accent-color: #38bdf8;
     }
   </style>
 </head>
-
-<body class="bg-slate-50 text-slate-800 antialiased selection:bg-sky-100 selection:text-sky-900">
-
-  <!-- Top Announcement Bar -->
-  <div class="bg-gradient-to-r from-sky-700 via-blue-800 to-indigo-900 text-white text-xs sm:text-sm py-2 px-4 text-center font-medium shadow-sm">
-    <span>🇮🇳 100% Free Financial Awareness for India. No sponsored products — strictly educational.</span>
-  </div>
+<body class="min-h-screen flex flex-col font-sans antialiased text-slate-200">
 
   <!-- Header / Navigation -->
-  <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex items-center justify-between h-16">
-        
-        <!-- Logo -->
-        <a href="#hero" class="flex items-center gap-2.5">
-          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-sky-500 to-indigo-600 flex items-center justify-center text-white font-extrabold text-xl shadow-md">
-            ₹
-          </div>
-          <div>
-            <div class="text-xl font-black tracking-tight text-slate-900">FinAware<span class="text-sky-600">.in</span></div>
-            <div class="text-[10px] text-slate-400 font-semibold tracking-wider uppercase -mt-1">Financial Literacy India</div>
-          </div>
-        </a>
-
-        <!-- Desktop Menu -->
-        <nav class="hidden lg:flex items-center space-x-1 text-sm font-medium text-slate-600">
-          <a href="#sip-calculator" class="px-3 py-2 rounded-lg hover:text-sky-600 hover:bg-slate-100/70 transition-colors">SIP Calculator</a>
-          <a href="#budget-tool" class="px-3 py-2 rounded-lg hover:text-sky-600 hover:bg-slate-100/70 transition-colors">50/30/20 Budget</a>
-          <a href="#rule-72" class="px-3 py-2 rounded-lg hover:text-sky-600 hover:bg-slate-100/70 transition-colors">Rule of 72</a>
-          <a href="#modules" class="px-3 py-2 rounded-lg hover:text-sky-600 hover:bg-slate-100/70 transition-colors">Core Pillars</a>
-          <a href="#quiz" class="ml-2 px-4 py-2 rounded-xl bg-sky-50 text-sky-700 font-semibold hover:bg-sky-100 transition-colors flex items-center gap-2 border border-sky-200/60">
-            <i class="fa-solid fa-clipboard-check text-sky-600"></i> Health Check Quiz
-          </a>
-        </nav>
-
-        <!-- Mobile Menu Toggle Button -->
-        <button id="mobileMenuBtn" aria-label="Toggle Navigation Menu" class="p-2 rounded-xl text-slate-600 hover:bg-slate-100 lg:hidden focus:outline-none">
-          <i id="menuIcon" class="fa-solid fa-bars text-xl"></i>
-        </button>
-
+  <header class="border-b border-slate-800/80 bg-slate-950/60 sticky top-0 z-50 backdrop-blur-md">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-emerald-500 flex items-center justify-center shadow-lg shadow-cyan-500/20">
+          <i class="fa-solid fa-chart-pie text-slate-950 font-bold text-lg"></i>
+        </div>
+        <div>
+          <span class="font-extrabold text-lg tracking-tight text-white">FinAudit<span class="text-cyan-400">.in</span></span>
+          <span class="hidden sm:inline-block ml-2 text-xs font-semibold px-2 py-0.5 rounded-full bg-slate-800 text-slate-400">Diagnostic Suite</span>
+        </div>
       </div>
-    </div>
-
-    <!-- Mobile Dropdown Navigation -->
-    <div id="mobileMenu" class="hidden lg:hidden border-b border-slate-200 bg-white px-4 pt-2 pb-5 space-y-1 shadow-lg">
-      <a href="#sip-calculator" class="block px-3 py-2.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-100">SIP Calculator</a>
-      <a href="#budget-tool" class="block px-3 py-2.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-100">50/30/20 Budgeting Rule</a>
-      <a href="#rule-72" class="block px-3 py-2.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-100">Rule of 72 Compounding</a>
-      <a href="#modules" class="block px-3 py-2.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-100">Core Financial Pillars</a>
-      <a href="#quiz" class="block px-3 py-2.5 rounded-lg text-sm font-bold text-sky-700 bg-sky-50 mt-2">Check Financial Health (Quiz)</a>
+      <div class="flex items-center gap-4">
+        <a href="#diagnostic" class="text-xs sm:text-sm font-medium text-slate-300 hover:text-white transition">Audit</a>
+        <a href="#drain-simulator" class="text-xs sm:text-sm font-medium text-slate-300 hover:text-white transition">Inflation Drain</a>
+        <a href="#action-plan" class="bg-gradient-to-r from-cyan-500 to-emerald-500 hover:from-cyan-400 hover:to-emerald-400 text-slate-950 font-semibold text-xs sm:text-sm px-4 py-2 rounded-lg transition shadow-md shadow-emerald-500/20">
+          Start Check
+        </a>
+      </div>
     </div>
   </header>
 
   <!-- Hero Section -->
-  <section id="hero" class="relative overflow-hidden pt-12 pb-16 md:pt-20 md:pb-24 bg-gradient-to-b from-sky-50/50 via-white to-slate-50 border-b border-slate-200/70">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center max-w-3xl mx-auto">
-        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-sky-100 text-sky-800 text-xs font-semibold mb-6 shadow-xs">
-          <i class="fa-solid fa-shield-halved text-sky-600"></i> Empowering Indian Middle-Class Families
+  <section class="relative py-12 lg:py-16 overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-b from-cyan-500/10 via-transparent to-transparent pointer-events-none"></div>
+    <div class="max-w-5xl mx-auto px-4 text-center relative z-10">
+      <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-cyan-500/30 bg-cyan-950/40 text-cyan-400 text-xs font-semibold mb-6">
+        <i class="fa-solid fa-bolt-lightning"></i> 60-Second Real-Time Financial Audit
+      </div>
+      <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-tight mb-4">
+        Discover Your Real <span class="bg-gradient-to-r from-cyan-400 via-teal-300 to-emerald-400 bg-clip-text text-transparent">Financial Health</span> Score
+      </h1>
+      <p class="text-slate-400 max-w-2xl mx-auto text-sm sm:text-base mb-8">
+        Are your savings keeping pace with inflation? How long could you survive an emergency without income? Run a diagnostic on your cash flows, emergency resilience, and investment health.
+      </p>
+    </div>
+  </section>
+
+  <!-- Main Diagnostic Section -->
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 pb-20 flex-1 w-full" id="diagnostic">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      
+      <!-- Input Panel (Left Column) -->
+      <div class="lg:col-span-7 space-y-6">
+        <div class="glass-card rounded-2xl p-6 sm:p-8 shadow-xl">
+          <div class="flex items-center justify-between pb-5 border-b border-slate-800">
+            <h2 class="text-lg font-bold text-white flex items-center gap-2">
+              <i class="fa-solid fa-sliders text-cyan-400"></i> Cash Flow & Profile Inputs
+            </h2>
+            <span class="text-xs text-slate-400">Step 1 of 1</span>
+          </div>
+
+          <div class="space-y-5 mt-6">
+            <!-- Monthly Take-Home Income -->
+            <div>
+              <div class="flex justify-between items-center mb-1">
+                <label class="text-sm font-medium text-slate-300">Monthly In-Hand Salary / Income</label>
+                <span class="text-sm font-bold text-cyan-400" id="income-display">₹75,000</span>
+              </div>
+              <input type="range" id="income-input" min="20000" max="500000" step="5000" value="75000" class="w-full h-2 bg-slate-800 rounded-lg cursor-pointer">
+              <div class="flex justify-between text-[11px] text-slate-500 mt-1">
+                <span>₹20K</span>
+                <span>₹2.5L</span>
+                <span>₹5L</span>
+              </div>
+            </div>
+
+            <!-- Essential Living Expenses -->
+            <div>
+              <div class="flex justify-between items-center mb-1">
+                <label class="text-sm font-medium text-slate-300">Monthly Essential Expenses (Rent, Food, Bills)</label>
+                <span class="text-sm font-bold text-slate-200" id="expense-display">₹35,000</span>
+              </div>
+              <input type="range" id="expense-input" min="10000" max="300000" step="2500" value="35000" class="w-full h-2 bg-slate-800 rounded-lg cursor-pointer">
+              <div class="flex justify-between text-[11px] text-slate-500 mt-1">
+                <span>₹10K</span>
+                <span>₹1.5L</span>
+                <span>₹3L</span>
+              </div>
+            </div>
+
+            <!-- Existing Liquid Savings / Emergency Fund -->
+            <div>
+              <div class="flex justify-between items-center mb-1">
+                <label class="text-sm font-medium text-slate-300">Total Liquid Savings (Savings A/C + FDs)</label>
+                <span class="text-sm font-bold text-emerald-400" id="savings-display">₹1,50,000</span>
+              </div>
+              <input type="range" id="savings-input" min="0" max="2500000" step="10000" value="150000" class="w-full h-2 bg-slate-800 rounded-lg cursor-pointer">
+              <div class="flex justify-between text-[11px] text-slate-500 mt-1">
+                <span>₹0</span>
+                <span>₹10L</span>
+                <span>₹25L</span>
+              </div>
+            </div>
+
+            <!-- Monthly Investments (SIPs, PPF, NPS) -->
+            <div>
+              <div class="flex justify-between items-center mb-1">
+                <label class="text-sm font-medium text-slate-300">Monthly Investments (Mutual Funds, SIPs, PPF)</label>
+                <span class="text-sm font-bold text-cyan-400" id="invest-display">₹15,000</span>
+              </div>
+              <input type="range" id="invest-input" min="0" max="250000" step="2500" value="15000" class="w-full h-2 bg-slate-800 rounded-lg cursor-pointer">
+              <div class="flex justify-between text-[11px] text-slate-500 mt-1">
+                <span>₹0</span>
+                <span>₹1L</span>
+                <span>₹2.5L</span>
+              </div>
+            </div>
+
+            <!-- High-Cost Debt / EMIs -->
+            <div>
+              <div class="flex justify-between items-center mb-1">
+                <label class="text-sm font-medium text-slate-300">Monthly High-Cost Debt / Personal EMIs</label>
+                <span class="text-sm font-bold text-rose-400" id="debt-display">₹5,000</span>
+              </div>
+              <input type="range" id="debt-input" min="0" max="150000" step="2000" value="5000" class="w-full h-2 bg-slate-800 rounded-lg cursor-pointer">
+              <div class="flex justify-between text-[11px] text-slate-500 mt-1">
+                <span>₹0</span>
+                <span>₹75K</span>
+                <span>₹1.5L</span>
+              </div>
+            </div>
+
+            <!-- Safety Net Toggles -->
+            <div class="pt-4 border-t border-slate-800 space-y-3">
+              <span class="text-xs font-semibold uppercase tracking-wider text-slate-400 block">Protection Checklist</span>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <label class="flex items-center gap-3 p-3 rounded-xl bg-slate-900/60 border border-slate-800 hover:border-slate-700 cursor-pointer transition">
+                  <input type="checkbox" id="check-term" checked class="w-4 h-4 rounded text-cyan-500 focus:ring-0 bg-slate-800 border-slate-700">
+                  <span class="text-xs font-medium text-slate-300">Term Insurance (10x+ Income)</span>
+                </label>
+                <label class="flex items-center gap-3 p-3 rounded-xl bg-slate-900/60 border border-slate-800 hover:border-slate-700 cursor-pointer transition">
+                  <input type="checkbox" id="check-health" checked class="w-4 h-4 rounded text-cyan-500 focus:ring-0 bg-slate-800 border-slate-700">
+                  <span class="text-xs font-medium text-slate-300">Personal Health Cover (≥ ₹10L)</span>
+                </label>
+              </div>
+            </div>
+
+          </div>
         </div>
+      </div>
+
+      <!-- Live Diagnosis Output (Right Column) -->
+      <div class="lg:col-span-5 space-y-6">
         
-        <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight leading-tight">
-          Achieve Real Financial Freedom: <br class="hidden sm:inline">
-          <span class="bg-clip-text text-transparent bg-gradient-to-r from-sky-600 via-blue-700 to-indigo-700">
-            Build Wealth, Beat Inflation.
-          </span>
-        </h1>
-        
-        <p class="mt-5 text-base sm:text-lg text-slate-600 leading-relaxed max-w-2xl mx-auto">
-          Over 90% of retail investors lose money chasing get-rich-quick tips. Learn how disciplined budgeting, systematic investing, and risk protection build sustainable generational wealth.
+        <!-- Score Card -->
+        <div class="glass-card rounded-2xl p-6 sm:p-8 glow-accent relative overflow-hidden">
+          <div class="flex items-center justify-between mb-4">
+            <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Diagnostic Verdict</span>
+            <span id="score-badge" class="px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+              Optimal Health
+            </span>
+          </div>
+
+          <div class="flex items-center justify-center py-4">
+            <div class="relative w-44 h-44 flex items-center justify-center">
+              <svg class="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="40" stroke="currentColor" stroke-width="8" class="text-slate-800" fill="transparent"></circle>
+                <circle id="score-circle" cx="50" cy="50" r="40" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-dasharray="251.2" stroke-dashoffset="60" class="text-cyan-400 transition-all duration-700 ease-out" fill="transparent"></circle>
+              </svg>
+              <div class="absolute inset-0 flex flex-col items-center justify-center text-center">
+                <span id="score-number" class="text-4xl font-extrabold text-white">78</span>
+                <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-widest mt-0.5">Out of 100</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Metric Badges Breakdown -->
+          <div class="grid grid-cols-2 gap-3 mt-4 pt-4 border-t border-slate-800">
+            <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-800 text-center">
+              <span class="text-[11px] text-slate-400 block mb-0.5">Emergency Runway</span>
+              <span id="runway-stat" class="text-base font-bold text-white">4.3 Months</span>
+              <span id="runway-eval" class="text-[10px] text-emerald-400 block font-medium">Safe Zone (≥3mo)</span>
+            </div>
+            <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-800 text-center">
+              <span class="text-[11px] text-slate-400 block mb-0.5">Savings Rate</span>
+              <span id="savings-rate-stat" class="text-base font-bold text-cyan-400">20.0%</span>
+              <span id="savings-eval" class="text-[10px] text-cyan-400 block font-medium">Healthy (≥20%)</span>
+            </div>
+            <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-800 text-center">
+              <span class="text-[11px] text-slate-400 block mb-0.5">Debt-to-Income (DTI)</span>
+              <span id="dti-stat" class="text-base font-bold text-slate-200">6.7%</span>
+              <span id="dti-eval" class="text-[10px] text-emerald-400 block font-medium">Low Burden (<20%)</span>
+            </div>
+            <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-800 text-center">
+              <span class="text-[11px] text-slate-400 block mb-0.5">Risk Shield</span>
+              <span id="shield-stat" class="text-base font-bold text-emerald-400">100%</span>
+              <span id="shield-eval" class="text-[10px] text-slate-400 block font-medium">Term + Health OK</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dynamic Action Items -->
+        <div class="glass-card rounded-2xl p-6 border border-slate-800" id="action-plan">
+          <h3 class="text-sm font-bold text-white flex items-center gap-2 mb-3">
+            <i class="fa-solid fa-triangle-exclamation text-amber-400"></i> Critical Action Items
+          </h3>
+          <ul id="recommendation-list" class="space-y-2 text-xs text-slate-300">
+            <!-- Dynamically injected -->
+          </ul>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Section 2: The "Silent Wealth Drain" Inflation Simulator -->
+    <section class="mt-16 glass-card rounded-2xl p-6 sm:p-10 border border-slate-800/80" id="drain-simulator">
+      <div class="max-w-3xl mb-8">
+        <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-rose-500/10 text-rose-400 text-xs font-semibold mb-3">
+          <i class="fa-solid fa-arrow-trend-down"></i> Purchasing Power Destroyer
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">The "Silent Wealth Drain" Visualizer</h2>
+        <p class="text-sm text-slate-400 mt-2">
+          Leaving idle money in a 3.0% Savings Account or standard Fixed Deposit silently destroys purchasing power against a baseline 6.5% real Indian inflation rate.
         </p>
-
-        <!-- CTAs -->
-        <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3.5">
-          <a href="#sip-calculator" class="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-sky-600 text-white font-semibold text-sm sm:text-base shadow-lg shadow-sky-600/25 hover:bg-sky-700 active:scale-95 transition-all flex items-center justify-center gap-2">
-            <i class="fa-solid fa-calculator"></i> Calculate SIP Returns
-          </a>
-          <a href="#modules" class="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-white border border-slate-300 text-slate-700 font-semibold text-sm sm:text-base shadow-xs hover:bg-slate-50 active:scale-95 transition-all flex items-center justify-center gap-2">
-            <i class="fa-solid fa-book-open-reader text-slate-500"></i> Read 4 Core Pillars
-          </a>
-        </div>
-
-        <!-- Quick Highlight Badges -->
-        <div class="mt-12 grid grid-cols-2 md:grid-cols-4 gap-3 text-slate-600 text-xs sm:text-sm font-medium">
-          <div class="bg-white p-3 rounded-2xl border border-slate-200/80 shadow-xs flex items-center justify-center gap-2">
-            <i class="fa-solid fa-ban text-rose-500"></i> Zero Sponsored Ads
-          </div>
-          <div class="bg-white p-3 rounded-2xl border border-slate-200/80 shadow-xs flex items-center justify-center gap-2">
-            <i class="fa-solid fa-chart-line text-emerald-500"></i> Rupee-Based Math
-          </div>
-          <div class="bg-white p-3 rounded-2xl border border-slate-200/80 shadow-xs flex items-center justify-center gap-2">
-            <i class="fa-solid fa-bolt text-amber-500"></i> Live Interactive Tools
-          </div>
-          <div class="bg-white p-3 rounded-2xl border border-slate-200/80 shadow-xs flex items-center justify-center gap-2">
-            <i class="fa-solid fa-mobile-screen-button text-sky-500"></i> 100% Mobile Ready
-          </div>
-        </div>
-
       </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Savings Account Card -->
+        <div class="bg-slate-900/90 rounded-xl p-5 border border-rose-500/20 relative">
+          <div class="flex justify-between items-center mb-3">
+            <span class="text-xs font-bold uppercase text-slate-400">Idle in Savings A/C</span>
+            <span class="text-xs font-semibold px-2 py-0.5 rounded bg-rose-500/20 text-rose-400">~3.0% Return</span>
+          </div>
+          <div class="space-y-1">
+            <div class="text-xs text-slate-400">Real Purchasing Power in 10 Yrs:</div>
+            <div id="sim-savings-val" class="text-xl font-bold text-rose-400">₹71,300</div>
+            <div class="text-[11px] text-rose-500/80">Net Loss: ~28.7% real purchasing loss</div>
+          </div>
+        </div>
+
+        <!-- Fixed Deposit Card -->
+        <div class="bg-slate-900/90 rounded-xl p-5 border border-amber-500/20 relative">
+          <div class="flex justify-between items-center mb-3">
+            <span class="text-xs font-bold uppercase text-slate-400">Traditional FD</span>
+            <span class="text-xs font-semibold px-2 py-0.5 rounded bg-amber-500/20 text-amber-400">~6.8% (Pre-Tax)</span>
+          </div>
+          <div class="space-y-1">
+            <div class="text-xs text-slate-400">Real Purchasing Power in 10 Yrs:</div>
+            <div id="sim-fd-val" class="text-xl font-bold text-amber-300">₹98,200</div>
+            <div class="text-[11px] text-amber-400/80">Net Neutral: Barely keeps up after 20–30% slab tax</div>
+          </div>
+        </div>
+
+        <!-- Broad Equity Index Card -->
+        <div class="bg-slate-900/90 rounded-xl p-5 border border-emerald-500/30 relative shadow-lg shadow-emerald-500/5">
+          <div class="flex justify-between items-center mb-3">
+            <span class="text-xs font-bold uppercase text-slate-400">Diversified Index Fund (SIP)</span>
+            <span class="text-xs font-semibold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400">~12.0% Historical</span>
+          </div>
+          <div class="space-y-1">
+            <div class="text-xs text-slate-400">Real Purchasing Power in 10 Yrs:</div>
+            <div id="sim-index-val" class="text-xl font-bold text-emerald-400">₹1,65,400</div>
+            <div class="text-[11px] text-emerald-400">Net Growth: +65.4% true purchasing expansion</div>
+          </div>
+        </div>
+      </div>
+      <p class="text-[11px] text-slate-500 mt-4">*Calculated based on a ₹1,00,000 baseline sum over 10 years at a continuous 6.5% inflation rate.</p>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-slate-900 bg-slate-950 py-8 text-center text-xs text-slate-500">
+    <div class="max-w-5xl mx-auto px-4 space-y-2">
+      <p class="font-medium text-slate-400">FinAudit India — Open Source Financial Literacy Initiative</p>
+      <p>Disclaimer: This portal is strictly for educational financial awareness and diagnostic illustration. It does not constitute SEBI-registered investment advice or guarantee future returns.</p>
     </div>
-  </section>
+  </footer>
 
-  <!-- Interactive SIP Calculator Section -->
-  <section id="sip-calculator" class="py-16 bg-white border-b border-slate-200">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center max-w-2xl mx-auto mb-12">
-        <span class="px-3 py-1 rounded-full bg-sky-100 text-sky-800 text-xs font-bold uppercase tracking-wider">SIP Projector</span>
-        <h2 class="mt-3 text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Systematic Investment Plan (SIP) Calculator</h2>
-        <p class="mt-2 text-slate-600 text-sm sm:text-base">Witness how small, disciplined monthly investments in diversified equity index funds create life-changing compounding over time.</p>
-      </div>
+  <!-- Diagnostic Logic Script -->
+  <script>
+    const fmtINR = (val) => "₹" + Number(val).toLocaleString("en-IN");
 
-      <div class="bg-slate-50 rounded-3xl border border-slate-200 shadow-xl overflow-hidden max-w-5xl mx-auto">
-        <div class="grid grid-cols-1 lg:grid-cols-12">
-          
-          <!-- Input Controls (7 Cols) -->
-          <div class="p-6 sm:p-10 lg:col-span-7 space-y-6 bg-white">
-            
-            <!-- Monthly Investment -->
-            <div>
-              <div class="flex justify-between items-center mb-2">
-                <label for="sipAmount" class="font-semibold text-sm text-slate-700">Monthly Investment (₹)</label>
-                <div class="flex items-center border border-slate-300 rounded-lg px-2.5 py-1 bg-slate-50">
-                  <span class="text-slate-400 font-bold mr-1">₹</span>
-                  <input type="number" id="sipAmountInput" value="5000" min="500" max="200000" step="500" class="w-24 bg-transparent font-bold text-sky-600 text-right focus:outline-none">
-                </div>
-              </div>
-              <input type="range" id="sipAmount" min="500" max="100000" step="500" value="5000" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer">
-              <div class="flex justify-between text-[11px] text-slate-400 mt-1">
-                <span>₹500</span>
-                <span>₹50,000</span>
-                <span>₹1,00,000</span>
-              </div>
-            </div>
+    // Elements
+    const incomeInput = document.getElementById("income-input");
+    const expenseInput = document.getElementById("expense-input");
+    const savingsInput = document.getElementById("savings-input");
+    const investInput = document.getElementById("invest-input");
+    const debtInput = document.getElementById("debt-input");
+    const checkTerm = document.getElementById("check-term");
+    const checkHealth = document.getElementById("check-health");
 
-            <!-- Expected Return Rate -->
-            <div>
-              <div class="flex justify-between items-center mb-2">
-                <label for="sipRate" class="font-semibold text-sm text-slate-700">Expected Annual Return (%)</label>
-                <div class="flex items-center border border-slate-300 rounded-lg px-2.5 py-1 bg-slate-50">
-                  <input type="number" id="sipRateInput" value="12" min="1" max="30" step="0.5" class="w-16 bg-transparent font-bold text-sky-600 text-right focus:outline-none">
-                  <span class="text-slate-400 font-bold ml-1">%</span>
-                </div>
-              </div>
-              <input type="range" id="sipRate" min="5" max="25" step="0.5" value="12" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer">
-              <div class="flex justify-between text-[11px] text-slate-400 mt-1">
-                <span>6% (FD)</span>
-                <span>12% (Nifty 50 Avg)</span>
-                <span>15%+ (Aggressive)</span>
-              </div>
-            </div>
+    // Displays
+    const incomeDisp = document.getElementById("income-display");
+    const expenseDisp = document.getElementById("expense-display");
+    const savingsDisp = document.getElementById("savings-display");
+    const investDisp = document.getElementById("invest-display");
+    const debtDisp = document.getElementById("debt-display");
 
-            <!-- Time Horizon -->
-            <div>
-              <div class="flex justify-between items-center mb-2">
-                <label for="sipYears" class="font-semibold text-sm text-slate-700">Investment Horizon (Years)</label>
-                <div class="flex items-center border border-slate-300 rounded-lg px-2.5 py-1 bg-slate-50">
-                  <input type="number" id="sipYearsInput" value="15" min="1" max="40" class="w-14 bg-transparent font-bold text-sky-600 text-right focus:outline-none">
-                  <span class="text-slate-400 font-bold ml-1">Yrs</span>
-                </div>
-              </div>
-              <input type="range" id="sipYears" min="1" max="35" step="1" value="15" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer">
-              <div class="flex justify-between text-[11px] text-slate-400 mt-1">
-                <span>1 Year</span>
-                <span>15 Years</span>
-                <span>35 Years</span>
-              </div>
-            </div>
+    // Outputs
+    const scoreNum = document.getElementById("score-number");
+    const scoreBadge = document.getElementById("score-badge");
+    const scoreCircle = document.getElementById("score-circle");
+    const runwayStat = document.getElementById("runway-stat");
+    const runwayEval = document.getElementById("runway-eval");
+    const savingsRateStat = document.getElementById("savings-rate-stat");
+    const savingsEval = document.getElementById("savings-eval");
+    const dtiStat = document.getElementById("dti-stat");
+    const dtiEval = document.getElementById("dti-eval");
+    const shieldStat = document.getElementById("shield-stat");
+    const shieldEval = document.getElementById("shield-eval");
+    const recList = document.getElementById("recommendation-list");
 
-            <!-- Pro Tip Box -->
-            <div class="bg-sky-50 border border-sky-200 rounded-2xl p-4 text-xs text-sky-950 flex items-start gap-3">
-              <i class="fa-solid fa-lightbulb text-sky-600 text-base mt-0.5"></i>
-              <div>
-                <strong>The 10% Step-Up Rule:</strong> Increasing your monthly SIP amount by just 10% each year as your income increases can nearly <strong>double your ultimate corpus</strong> without feeling heavy on your monthly cash flow.
-              </div>
-            </div>
+    function calculateDiagnostic() {
+      const income = parseFloat(incomeInput.value);
+      const expense = parseFloat(expenseInput.value);
+      const savings = parseFloat(savingsInput.value);
+      const invest = parseFloat(investInput.value);
+      const debt = parseFloat(debtInput.value);
+      const hasTerm = checkTerm.checked;
+      const hasHealth = checkHealth.checked;
 
-          </div>
+      // Update text displays
+      incomeDisp.innerText = fmtINR(income);
+      expenseDisp.innerText = fmtINR(expense);
+      savingsDisp.innerText = fmtINR(savings);
+      investDisp.innerText = fmtINR(invest);
+      debtDisp.innerText = fmtINR(debt);
 
-          <!-- Result Display & Visualization (5 Cols) -->
-          <div class="p-6 sm:p-10 lg:col-span-5 bg-gradient-to-br from-slate-900 via-slate-800 to-sky-950 text-white flex flex-col justify-between">
-            <div>
-              <div class="text-xs uppercase tracking-wider text-slate-400 font-semibold mb-6 flex items-center justify-between">
-                <span>Projected Wealth</span>
-                <span id="summaryPeriodBadge" class="px-2 py-0.5 rounded-full bg-slate-700/80 text-[10px] text-sky-300">15 Years</span>
-              </div>
+      // 1. Metric: Emergency Runway
+      const monthlyBurn = expense + debt;
+      const runwayMonths = monthlyBurn > 0 ? (savings / monthlyBurn) : 0;
+      runwayStat.innerText = `${runwayMonths.toFixed(1)} Months`;
 
-              <div class="mb-6">
-                <span class="text-xs text-slate-400 block mb-1">Total Maturity Value</span>
-                <div id="resTotalWealth" class="text-3xl sm:text-4xl font-black text-emerald-400 tracking-tight">₹ 25,22,880</div>
-              </div>
+      let runwayScore = 0;
+      if (runwayMonths >= 6) {
+        runwayScore = 30;
+        runwayEval.innerText = "Solid Reserve (≥6mo)";
+        runwayEval.className = "text-[10px] text-emerald-400 block font-medium";
+      } else if (runwayMonths >= 3) {
+        runwayScore = 20;
+        runwayEval.innerText = "Moderate (Goal: 6mo)";
+        runwayEval.className = "text-[10px] text-amber-400 block font-medium";
+      } else {
+        runwayScore = (runwayMonths / 3) * 15;
+        runwayEval.innerText = "Critical (<3mo)";
+        runwayEval.className = "text-[10px] text-rose-400 block font-medium";
+      }
 
-              <!-- Metric Cards -->
-              <div class="space-y-4 mb-6">
-                <div class="bg-slate-800/80 p-3.5 rounded-xl border border-slate-700">
-                  <div class="flex justify-between text-xs mb-1">
-                    <span class="text-slate-300 flex items-center gap-1.5">
-                      <span class="w-2.5 h-2.5 rounded-full bg-sky-400 inline-block"></span> Amount Invested
-                    </span>
-                    <span id="resInvested" class="font-bold text-white">₹ 9,00,000</span>
-                  </div>
-                  <div class="w-full bg-slate-700 rounded-full h-2 overflow-hidden mt-2">
-                    <div id="barInvested" class="bg-sky-400 h-2 rounded-full transition-all duration-300" style="width: 35%;"></div>
-                  </div>
-                </div>
+      // 2. Metric: Savings & Investment Rate
+      const totalSavedMonthly = invest;
+      const savingsRate = income > 0 ? (totalSavedMonthly / income) * 100 : 0;
+      savingsRateStat.innerText = `${savingsRate.toFixed(1)}%`;
 
-                <div class="bg-slate-800/80 p-3.5 rounded-xl border border-slate-700">
-                  <div class="flex justify-between text-xs mb-1">
-                    <span class="text-slate-300 flex items-center gap-1.5">
-                      <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 inline-block"></span> Estimated Gains (Compounding)
-                    </span>
-                    <span id="resGains" class="font-bold text-emerald-400">₹ 16,22,880</span>
-                  </div>
-                  <div class="w-full bg-slate-700 rounded-full h-2 overflow-hidden mt-2">
-                    <div id="barGains" class="bg-emerald-400 h-2 rounded-full transition-all duration-300" style="width: 65%;"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
+      let investScore = 0;
+      if (savingsRate >= 25) {
+        investScore = 30;
+        savingsEval.innerText = "Excellent Wealth Builder";
+        savingsEval.className = "text-[10px] text-emerald-400 block font-medium";
+      } else if (savingsRate >= 15) {
+        investScore = 20;
+        savingsEval.innerText = "Healthy (Target: 20-30%)";
+        savingsEval.className = "text-[10px] text-cyan-400 block font-medium";
+      } else {
+        investScore = (savingsRate / 15) * 12;
+        savingsEval.innerText = "Low Compounding Velocity";
+        savingsEval.className = "text-[10px] text-rose-400 block font-medium";
+      }
 
-            <div class="text-[11px] text-slate-400 pt-4 border-t border-slate-700/70 leading-relaxed">
-              Formula: M = P × ({[1 + i]^n - 1} / i) × (1 + i). Realized market returns depend on equity asset volatility.
-            </div>
-          </div>
+      // 3. Metric: Debt-to-Income (DTI)
+      const dti = income > 0 ? (debt / income) * 100 : 0;
+      dtiStat.innerText = `${dti.toFixed(1)}%`;
 
-        </div>
-      </div>
-    </div>
-  </section>
+      let debtScore = 0;
+      if (dti <= 15) {
+        debtScore = 20;
+        dtiEval.innerText = "Low Burden (<15%)";
+        dtiEval.className = "text-[10px] text-emerald-400 block font-medium";
+      } else if (dti <= 35) {
+        debtScore = 10;
+        dtiEval.innerText = "Moderate EMI Strain";
+        dtiEval.className = "text-[10px] text-amber-400 block font-medium";
+      } else {
+        debtScore = 0;
+        dtiEval.innerText = "Severe Debt Trap (>35%)";
+        dtiEval.className = "text-[10px] text-rose-400 block font-medium";
+      }
 
-  <!-- 50/30/20 Budgeting Rule Interactive Section -->
-  <section id="budget-tool" class="py-16 bg-slate-50 border-b border-slate-200">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center max-w-2xl mx-auto mb-12">
-        <span class="px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold uppercase tracking-wider">Budget Framework</span>
-        <h2 class="mt-3 text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">The 50 / 30 / 20 Budget Allocator</h2>
-        <p class="mt-2 text-slate-600 text-sm sm:text-base">Enter your monthly in-hand salary to calculate an immediate, disciplined spending and saving blueprint.</p>
-      </div>
+      // 4. Metric: Risk Shield (Insurance)
+      let shieldCount = (hasTerm ? 1 : 0) + (hasHealth ? 1 : 0);
+      let insuranceScore = (shieldCount / 2) * 20;
+      shieldStat.innerText = `${(shieldCount * 50)}%`;
+      if (shieldCount === 2) {
+        shieldEval.innerText = "Term + Health Active";
+        shieldEval.className = "text-[10px] text-emerald-400 block font-medium";
+      } else if (shieldCount === 1) {
+        shieldEval.innerText = "Gap Detected (Need Both)";
+        shieldEval.className = "text-[10px] text-amber-400 block font-medium";
+      } else {
+        shieldEval.innerText = "Vulnerable (Zero Cover)";
+        shieldEval.className = "text-[10px] text-rose-400 block font-medium";
+      }
 
-      <div class="max-w-4xl mx-auto">
-        <!-- Input Form -->
-        <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm mb-8 max-w-lg mx-auto text-center">
-          <label for="monthlyIncome" class="block font-semibold text-slate-700 text-sm sm:text-base mb-2">Monthly In-Hand Income (₹)</label>
-          <div class="relative">
-            <span class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 font-bold text-lg">₹</span>
-            <input type="number" id="monthlyIncome" value="50000" min="5000" step="1000" class="w-full pl-9 pr-4 py-3 bg-slate-50 border border-slate-300 rounded-xl text-xl font-black text-slate-900 text-center focus:ring-2 focus:ring-sky-500 focus:outline-none">
-          </div>
-          <p class="text-xs text-slate-400 mt-2">Adjust with your exact net salary after EPF & tax deductions.</p>
-        </div>
+      // Total Score
+      const totalScore = Math.min(100, Math.round(runwayScore + investScore + debtScore + insuranceScore));
+      scoreNum.innerText = totalScore;
 
-        <!-- 3 Buckets Cards -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-          
-          <!-- Needs Card (50%) -->
-          <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
-            <div>
-              <div class="flex items-center justify-between mb-4">
-                <span class="px-2.5 py-1 rounded-full bg-blue-100 text-blue-700 text-xs font-bold">50% Needs</span>
-                <i class="fa-solid fa-house-chimney text-blue-600 text-lg"></i>
-              </div>
-              <h3 class="text-lg font-bold text-slate-900 mb-1">Living Essentials</h3>
-              <p class="text-xs text-slate-500 mb-4 leading-relaxed">Mandatory non-negotiable costs: House rent, home loan EMI, groceries, utilities, school fees, commuting.</p>
-              
-              <div class="space-y-1.5 text-xs text-slate-600 border-t border-slate-100 pt-3 mb-4">
-                <div class="flex items-center gap-2">
-                  <i class="fa-solid fa-check text-emerald-500"></i> Must never exceed 50%
-                </div>
-                <div class="flex items-center gap-2">
-                  <i class="fa-solid fa-check text-emerald-500"></i> Keep EMIs below 30% of salary
-                </div>
-              </div>
-            </div>
-            <div class="pt-3 border-t border-slate-100">
-              <span class="text-xs text-slate-400 block">Monthly Target:</span>
-              <div id="budgetNeeds" class="text-2xl font-black text-blue-700">₹ 25,000</div>
-            </div>
-          </div>
+      // Update Circle SVG
+      const totalCircumference = 251.2;
+      const offset = totalCircumference - (totalScore / 100) * totalCircumference;
+      scoreCircle.style.strokeDashoffset = offset;
 
-          <!-- Wants Card (30%) -->
-          <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
-            <div>
-              <div class="flex items-center justify-between mb-4">
-                <span class="px-2.5 py-1 rounded-full bg-amber-100 text-amber-700 text-xs font-bold">30% Wants</span>
-                <i class="fa-solid fa-bag-shopping text-amber-600 text-lg"></i>
-              </div>
-              <h3 class="text-lg font-bold text-slate-900 mb-1">Lifestyle & Fun</h3>
-              <p class="text-xs text-slate-500 mb-4 leading-relaxed">Discretionary expenses: Dining out, weekend trips, OTT subscriptions, new gadgets, shopping, movies.</p>
-              
-              <div class="space-y-1.5 text-xs text-slate-600 border-t border-s
+      // Update Badge & Tone
+      if (totalScore >= 80) {
+        scoreBadge.innerText = "Optimal Wealth Resilient";
+        scoreBadge.className = "px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30";
+        scoreCircle.setAttribute("class", "text-emerald-400 transition-all duration-700 ease-out");
+      } else if (totalScore >= 55) {
+        scoreBadge.innerText = "Moderate Resilience";
+        scoreBadge.className = "px-2.5 py-1 rounded-full text-xs font-bold bg-cyan-500/20 text-cyan-400 border border-cyan-500/30";
+        scoreCircle.setAttribute("class", "text-cyan-400 transition-all duration-700 ease-out");
+      } else {
+        scoreBadge.innerText = "Financial Fragility Detected";
+        scoreBadge.className = "px-2.5 py-1 rounded-full text-xs font-bold bg-rose-500/20 text-rose-400 border border-rose-500/30";
+        scoreCircle.setAttribute("class", "text-rose-400 transition-all duration-700 ease-out");
+      }
+
+      // Build Actionable Roadmap Items
+      const recs = [];
+      if (runwayMonths < 6) {
+        const deficit = Math.max(0, (monthlyBurn * 6) - savings);
+        recs.push(`<li>• <strong>Emergency Buffer:</strong> Save <strong>${fmtINR(deficit)}</strong> more in an arbitrage fund or sweep-in FD to achieve a 6-month safety net.</li>`);
+      }
+      if (!hasHealth) {
+        recs.push(`<li>• <strong>Health Insurance Shield:</strong> Secure a separate ₹10L–₹25L personal health insurance plan to protect your savings from medical hospital bills.</li>`);
+      }
+      if (!hasTerm) {
+        recs.push(`<li>• <strong>Pure Term Insurance:</strong> Take a term insurance policy covering 10–15× annual income (avoid ULIPs and endowment plans).</li>`);
+      }
+      if (dti > 25) {
+        recs.push(`<li>• <strong>High-Cost Debt Payoff:</strong> Prioritize clearing loans/credit card revolving balances eating >25% of your income.</li>`);
+      }
+      if (savingsRate < 20) {
+        recs.push(`<li>• <strong>Compounding Boost:</strong> Step up your monthly SIP investments by at least 5–10% annually to reach the ideal 25%+ savings rate.</li>`);
+      }
+      if (recs.length === 0) {
+        recs.push(`<li class="text-emerald-400">• Your core financial pillars are well-aligned! Focus on annual SIP step-ups and disciplined tax planning.</li>`);
+      }
+      recList.innerHTML = recs.join("");
+    }
+
+    // Attach listeners
+    [incomeInput, expenseInput, savingsInput, investInput, debtInput].forEach(inp => {
+      inp.addEventListener("input", calculateDiagnostic);
+    });
+    [checkTerm, checkHealth].forEach(chk => {
+      chk.addEventListener("change", calculateDiagnostic);
+    });
+
+    // Initial Run
+    calculateDiagnostic();
+  </script>
+</body>
+</html>
